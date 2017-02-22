@@ -111,7 +111,7 @@ module.exports = function(file, opt) {
 		var joinedExtra = '';
 
 		if (opt.withStruct) {
-			var struct = 'struct ' + mapName + '_t {\n' +
+			var struct = '\nstruct ' + mapName + '_t {\n' +
 				     '\tunsigned char *name;\n' +
 				     '\tunsigned int size;\n' +
 				     '\tunsigned char *ptr;\n' +
