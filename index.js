@@ -116,7 +116,7 @@ module.exports = function(file, opt) {
 				     '\tunsigned int size;\n' +
 				     '\tunsigned char *ptr;\n' +
 				     '} ' + mapName + '_t;\n';
-			joinedExtra =+ struct;
+			joinedExtra += struct;
 		}
 
 		if (opt.withMap) {
@@ -130,7 +130,7 @@ module.exports = function(file, opt) {
 				});
 				mapped += '};\n';
 			}
-			joinedExtra =+ mapped;
+			joinedExtra += mapped;
 		}
 
 		joinedFile.contents = Buffer.concat([concat.content, new Buffer(joinedExtra)]);
