@@ -1,7 +1,7 @@
 {
   "name": "gulp-concat-c",
   "description": "Concatenates files to C-array format",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "files": [
     "index.js"
   ],

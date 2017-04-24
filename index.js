@@ -78,12 +78,15 @@ module.exports = function(file, opt) {
 			concat = new Concat(isUsingSourceMaps, fileName, opt.newLine);
 		}
 
+		// in-memory size may differ if stream has been manipulated
+		var realsz = file.contents.length;
+
 		// transform content to C-array
 		file.contents = new Buffer(dataEntry.replace("{0}", idx).replace("{1}", bytesToHex(file.contents)));
 
 		// add file to concat instance
 		concat.add(file.relative, file.contents, file.sourceMap);
-		fileMap.push([idx, file.relative, file.stat.size]);
+		fileMap.push([idx, file.relative, realsz]);
 		idx++;
 		cb();
 	}
