@@ -34,7 +34,8 @@ module.exports = function(file, opt) {
 
 	var fileMap = [];
 	var mapName = opt.mapName || 'embed_file';
-	var dataEntry = opt.dataEntry || 'const unsigned char ' + mapName + '_{0}_data[] = { "{1}" };';
+	var dataEntry = (opt.dataEntry || 'const unsigned char') + ' ' + mapName + '_{0}_data[] = { "{1}" };';
+	var countConst = opt.countConst || false;
 	var idx = 0;
 
 	function bytesToHex(bytes) {
@@ -129,11 +130,18 @@ module.exports = function(file, opt) {
 				Object.keys(fileMap).forEach(function(o) {
 					var lastFile = (o == fileMap.length-1);
 					o = fileMap[o];
-					mapped += '\t' + mapEntry.replace("{0}", o[1]).replace("{1}", o[2]).replace("{2}", o[0]) + (lastFile ? "" : ",") + '\n';
+					mapped += '\t' + mapEntry.replace("{0}", o[1]).replace("{1}", o[2]).replace("{2}", o[0]) + (lastFile && countConst ? "" : ",") + '\n';
 				});
+				if (!countConst) {
+					mapped += '\tNULL, -1, NULL\n'
+				}
 				mapped += '};\n';
 			}
 			joinedExtra += mapped;
+		}
+
+		if (countConst) {
+			joinedExtra += 'const unsigned int ' + mapName + '_len = ' + fileMap.length + ';\n';
 		}
 
 		joinedFile.contents = Buffer.concat([concat.content, new Buffer(joinedExtra)]);
